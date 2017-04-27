@@ -1,4 +1,4 @@
-/*! rangeslider.js - v2.3.0 | (c) 2016 @andreruffert | MIT license | https://github.com/andreruffert/rangeslider.js */
+/*! rangeslider.js - v2.3.0 | (c) 2017 @andreruffert | MIT license | https://github.com/andreruffert/rangeslider.js */
 (function(factory) {
     'use strict';
 
@@ -36,6 +36,7 @@
         hasInputRangeSupport = supportsRange(),
         defaults = {
             polyfill: true,
+            maxWidth: undefined,
             orientation: 'horizontal',
             rangeClass: 'rangeslider',
             disabledClass: 'rangeslider--disabled',
@@ -224,6 +225,7 @@
         this.onInit             = this.options.onInit;
         this.onSlide            = this.options.onSlide;
         this.onSlideEnd         = this.options.onSlideEnd;
+        this.maxWidth           = this.options.maxWidth;
         this.DIMENSION          = constants.orientation[this.orientation].dimension;
         this.DIRECTION          = constants.orientation[this.orientation].direction;
         this.DIRECTION_STYLE    = constants.orientation[this.orientation].directionStyle;
@@ -304,6 +306,7 @@
         this.maxHandlePos       = this.rangeDimension - this.handleDimension;
         this.grabPos            = this.handleDimension / 2;
         this.position           = this.getPositionFromValue(this.value);
+        console.log(this);
 
         // Consider disabled state
         if (this.$element[0].disabled) {
@@ -424,6 +427,11 @@
             pageCoordinate = e.currentPoint[this.COORDINATE];
         }
 
+        if(this.maxWidth && this.$window.width() > this.maxWidth){
+            var scale = this.$window.width()/this.maxWidth;
+            rangePos *= scale;
+            pageCoordinate *= scale;
+        }
         return pageCoordinate - rangePos;
     };
 
