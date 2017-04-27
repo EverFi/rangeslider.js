@@ -306,7 +306,6 @@
         this.maxHandlePos       = this.rangeDimension - this.handleDimension;
         this.grabPos            = this.handleDimension / 2;
         this.position           = this.getPositionFromValue(this.value);
-        console.log(this);
 
         // Consider disabled state
         if (this.$element[0].disabled) {
