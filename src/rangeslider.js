@@ -35,7 +35,7 @@
         hasInputRangeSupport = supportsRange(),
         defaults = {
             polyfill: true,
-            maxWidth: undefined,
+            scaledContainer: undefined,
             orientation: 'horizontal',
             rangeClass: 'rangeslider',
             disabledClass: 'rangeslider--disabled',
@@ -224,7 +224,7 @@
         this.onInit             = this.options.onInit;
         this.onSlide            = this.options.onSlide;
         this.onSlideEnd         = this.options.onSlideEnd;
-        this.maxWidth           = this.options.maxWidth;
+        this.scaledContainer    = this.options.scaledContainer;
         this.DIMENSION          = constants.orientation[this.orientation].dimension;
         this.DIRECTION          = constants.orientation[this.orientation].direction;
         this.DIRECTION_STYLE    = constants.orientation[this.orientation].directionStyle;
@@ -425,8 +425,14 @@
             pageCoordinate = e.currentPoint[this.COORDINATE];
         }
 
-        if(this.maxWidth && this.$window.width() > this.maxWidth){
-            var scale = this.$window.width()/this.maxWidth;
+        if(this.scaledContainer){
+            var scale = 1;
+            if(this.scaledContainer.get(0).getBoundingClientRect().width < this.scaledContainer.width()){
+                scale = this.scaledContainer.width()/this.scaledContainer.get(0).getBoundingClientRect().width;
+            }else{
+                scale = this.scaledContainer.height()/this.scaledContainer.get(0).getBoundingClientRect().height;
+            }
+
             rangePos *= scale;
             pageCoordinate *= scale;
         }
